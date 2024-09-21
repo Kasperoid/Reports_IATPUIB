@@ -154,3 +154,13 @@ starwars |> mutate('lenName' = nchar(name)) |> group_by(species) |> summarise('m
 ```{r}
 starwars |> filter(species=='Droid')
 ```
+
+## Оценка результатов
+
+1. Были успешно выполнены поставленные задачи
+
+2. Изучена библиотека dplyr и соответствующие функции для решения задач (filter, group_by...)
+
+## Вывод
+
+Получен навык практической работы с функциями обработки данных: select(), filter(), mutate(), arrange(), group_by()

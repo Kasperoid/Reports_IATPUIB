@@ -304,3 +304,15 @@ starwars |> filter(species=='Droid')
     6 BB8        NA    NA none       none        black             NA none  masculi…
     # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>
+
+## Оценка результатов
+
+1.  Были успешно выполнены поставленные задачи
+
+2.  Изучена библиотека dplyr и соответствующие функции для решения задач
+    (filter, group_by…)
+
+## Вывод
+
+Получен навык практической работы с функциями обработки данных:
+select(), filter(), mutate(), arrange(), group_by()
