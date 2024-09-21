@@ -151,10 +151,6 @@ starwars |> filter(!is.na(eye_color)) |> group_by(eye_color) |> summarise('Count
 starwars |> mutate('lenName' = nchar(name)) |> group_by(species) |> summarise('meanNameLen' = mean(lenName))
 ```
 
-```{r}
-starwars |> filter(species=='Droid')
-```
-
 ## Оценка результатов
 
 1. Были успешно выполнены поставленные задачи
