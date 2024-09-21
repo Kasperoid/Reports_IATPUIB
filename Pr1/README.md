@@ -6,18 +6,16 @@
 
 ## Цель работы
 
-1.  Подготовить рабочее окружение для работы с Rstudio
-
-2.  Разработать отчет с использованием стека технологий Rmarkdown и
+1.  Разработать отчет с использованием стека технологий Rmarkdown и
     Quarto
 
-3.  Оформить отчет в соответствии с шаблоном
+2.  Оформить отчет в соответствии с шаблоном
 
-4.  Познакомиться с языком R
+3.  Познакомиться с языком R
 
-5.  Пройти обучающие уроки в swirl
+4.  Пройти обучающие уроки в swirl
 
-6.  Создать репозиторий на GitHub и запушить проект
+5.  Создать репозиторий на GitHub и запушить проект
 
 ## Исходные данные
 
@@ -33,47 +31,17 @@
 
 ## План выполнения работы
 
-1.  Скачать и установить на ПК R и Rstudio
+1.  Установить пакет swirl
 
-2.  Установить пакет swirl
+2.  Выполнить ознакомительные задания
 
-3.  Выполнить ознакомительные задания
+3.  Создать репозиторий на GitHub
 
-4.  Создать репозиторий на GitHub
-
-5.  Оформить отчёт
+4.  Оформить отчёт
 
 ## Содержание практической работы
 
 ### Шаг 1
-
-**На данном шаге производится настройка рабочего окружения.**
-
-Для этого необходимо скачать R и RStudio Desktop
-
-<figure>
-<img src="./images/download_R.png" alt="Скачивание R" />
-<figcaption aria-hidden="true"><em>Скачивание R</em></figcaption>
-</figure>
-
-<figure>
-<img src="./images/download_RS.png" alt="Скачивание RStudio" />
-<figcaption aria-hidden="true"><em>Скачивание RStudio</em></figcaption>
-</figure>
-
-Далее происходит установка данного ПО
-
-<figure>
-<img src="./images/install_R.png" alt="Установка R" />
-<figcaption aria-hidden="true"><em>Установка R</em></figcaption>
-</figure>
-
-<figure>
-<img src="./images/install_RS.png" alt="Установка RS" />
-<figcaption aria-hidden="true"><em>Установка RS</em></figcaption>
-</figure>
-
-### Шаг 2
 
 **На данном шаге происходит установка пакета swirl**
 
@@ -86,7 +54,7 @@
 swirl</em></figcaption>
 </figure>
 
-### Шаг 3
+### Шаг 2
 
 **На данном шаге происходит запуск заданий и их выполнение**
 
@@ -158,13 +126,356 @@ alt="Выбор первого задания" />
     `x = (5, 6)` данные векторы складываются, по итогу получается вектор
     `(6, 8, 8, 10)`
 
+``` r
+5+7
+```
+
+    [1] 12
+
+``` r
+x <- 5+7
+```
+
+``` r
+x
+```
+
+    [1] 12
+
+``` r
+y <- x - 3
+```
+
+``` r
+y
+```
+
+    [1] 9
+
+``` r
+c(1.1, 9, 3.14)
+```
+
+    [1] 1.10 9.00 3.14
+
+``` r
+z <- c(1.1, 9, 3.14)
+z
+```
+
+    [1] 1.10 9.00 3.14
+
+``` r
+?c
+```
+
+    starting httpd help server ... done
+
+``` r
+z
+```
+
+    [1] 1.10 9.00 3.14
+
+``` r
+c(z, 555)
+```
+
+    [1]   1.10   9.00   3.14 555.00
+
+``` r
+c(z, 555, z)
+```
+
+    [1]   1.10   9.00   3.14 555.00   1.10   9.00   3.14
+
+``` r
+z * 2 + 100
+```
+
+    [1] 102.20 118.00 106.28
+
+``` r
+my_sqrt <- sqrt(z-1)
+```
+
+``` r
+3
+```
+
+    [1] 3
+
+``` r
+my_sqrt
+```
+
+    [1] 0.3162278 2.8284271 1.4628739
+
+``` r
+my_div <- z / my_sqrt
+```
+
+``` r
+1
+```
+
+    [1] 1
+
+``` r
+my_div
+```
+
+    [1] 3.478505 3.181981 2.146460
+
+``` r
+c(1, 2, 3, 4) + c(0, 10)
+```
+
+    [1]  1 12  3 14
+
+``` r
+c(1, 2, 3, 4) + c(0, 10, 100)
+```
+
+    Warning in c(1, 2, 3, 4) + c(0, 10, 100): longer object length is not a
+    multiple of shorter object length
+
+    [1]   1  12 103   4
+
+``` r
+(z * 2 + 1000)
+```
+
+    [1] 1002.20 1018.00 1006.28
+
+``` r
+my_div
+```
+
+    [1] 3.478505 3.181981 2.146460
+
 #### Второе задание (Workspace and Files)
+
+``` r
+getwd()
+```
+
+    [1] "C:/Users/ivanu/Универ/ИАТПУИБ/Works/Pr1"
+
+``` r
+ls()
+```
+
+    [1] "my_div"  "my_sqrt" "x"       "y"       "z"      
+
+``` r
+x <- 9
+```
+
+``` r
+ls()
+```
+
+    [1] "my_div"  "my_sqrt" "x"       "y"       "z"      
+
+``` r
+dir()
+```
+
+     [1] "images"                    "mytest2.R"                
+     [3] "mytest3.R"                 "Pr1.markdown_strict_files"
+     [5] "README.html"               "README.md"                
+     [7] "README.rmarkdown"          "README.Rmd"               
+     [9] "testdir"                   "testdir2"                 
+
+``` r
+?list.files
+```
+
+``` r
+args(list.files)
+```
+
+    function (path = ".", pattern = NULL, all.files = FALSE, full.names = FALSE, 
+        recursive = FALSE, ignore.case = FALSE, include.dirs = FALSE, 
+        no.. = FALSE) 
+    NULL
+
+``` r
+old.dir <- getwd()
+```
+
+``` r
+dir.create("testdir")
+```
+
+    Warning in dir.create("testdir"): 'testdir' already exists
+
+``` r
+setwd("testdir")
+```
+
+``` r
+file.create("mytest.R")
+```
+
+    [1] TRUE
+
+``` r
+list.files()
+```
+
+     [1] "images"                    "mytest.R"                 
+     [3] "mytest2.R"                 "mytest3.R"                
+     [5] "Pr1.markdown_strict_files" "README.html"              
+     [7] "README.md"                 "README.rmarkdown"         
+     [9] "README.Rmd"                "testdir"                  
+    [11] "testdir2"                 
+
+``` r
+file.exists("mytest.R")
+```
+
+    [1] TRUE
+
+``` r
+file.info("mytest.R")
+```
+
+             size isdir mode               mtime               ctime
+    mytest.R    0 FALSE  666 2024-09-22 00:24:58 2024-09-22 00:24:58
+                           atime exe
+    mytest.R 2024-09-22 00:24:58  no
+
+``` r
+file.rename("mytest.R", "mytest2.R")
+```
+
+    [1] TRUE
+
+``` r
+file.copy("mytest2.R","mytest3.R")
+```
+
+    [1] FALSE
+
+``` r
+file.path("mytest3.R")
+```
+
+    [1] "mytest3.R"
+
+``` r
+file.path("folder1", "folder2")
+```
+
+    [1] "folder1/folder2"
+
+``` r
+?dir.create
+```
+
+``` r
+dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+```
+
+    Warning in dir.create(file.path("testdir2", "testdir3"), recursive = TRUE):
+    'testdir2\testdir3' already exists
+
+``` r
+setwd(old.dir)
+```
 
 По итогу прохождения данного задания я понял, что имеется набор команд,
 которые позволяют создавать новые директории и файлы, просматривать пути
 до них, копировать и переименовывать файлы
 
 #### Третье задание (Sequences of Numbers)
+
+``` r
+1:20
+```
+
+     [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+
+``` r
+pi:10
+```
+
+    [1] 3.141593 4.141593 5.141593 6.141593 7.141593 8.141593 9.141593
+
+``` r
+15:1
+```
+
+     [1] 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1
+
+``` r
+?":"
+```
+
+``` r
+seq(1, 20)
+```
+
+     [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+
+``` r
+seq(0, 10, by=0.5)
+```
+
+     [1]  0.0  0.5  1.0  1.5  2.0  2.5  3.0  3.5  4.0  4.5  5.0  5.5  6.0  6.5  7.0
+    [16]  7.5  8.0  8.5  9.0  9.5 10.0
+
+``` r
+my_seq <- seq(5, 10, length=30)
+```
+
+``` r
+length(my_seq)
+```
+
+    [1] 30
+
+``` r
+1:length(my_seq)
+```
+
+     [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+    [26] 26 27 28 29 30
+
+``` r
+seq(along.with = my_seq)
+```
+
+     [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+    [26] 26 27 28 29 30
+
+``` r
+seq_along(my_seq)
+```
+
+     [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+    [26] 26 27 28 29 30
+
+``` r
+rep(0, times = 40)
+```
+
+     [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    [39] 0 0
+
+``` r
+rep(c(0, 1, 2), times = 10)
+```
+
+     [1] 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2 0 1 2
+
+``` r
+rep(c(0, 1, 2), each = 10)
+```
+
+     [1] 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2
 
 В результате прохождения данного урока я понял, что:
 
@@ -189,6 +500,78 @@ alt="Выбор первого задания" />
 
 #### Четвертое задание (Vectors)
 
+``` r
+num_vect <- c(0.5, 55, -10, 6)
+```
+
+``` r
+tf <- num_vect < 1
+```
+
+``` r
+tf
+```
+
+    [1]  TRUE FALSE  TRUE FALSE
+
+``` r
+num_vect >= 6
+```
+
+    [1] FALSE  TRUE FALSE  TRUE
+
+``` r
+my_char <- c("My", "name", "is")
+```
+
+``` r
+my_char
+```
+
+    [1] "My"   "name" "is"  
+
+``` r
+paste(my_char, collapse = " ")
+```
+
+    [1] "My name is"
+
+``` r
+my_name <- c(my_char, "Ivan")
+```
+
+``` r
+my_name
+```
+
+    [1] "My"   "name" "is"   "Ivan"
+
+``` r
+paste(my_name, collapse = " ")
+```
+
+    [1] "My name is Ivan"
+
+``` r
+paste("Hello", "world!", sep = " ")
+```
+
+    [1] "Hello world!"
+
+``` r
+paste(1:3,c("X", "Y", "Z"),sep = "")
+```
+
+    [1] "1X" "2Y" "3Z"
+
+``` r
+paste(LETTERS, 1:4, sep = "-")
+```
+
+     [1] "A-1" "B-2" "C-3" "D-4" "E-1" "F-2" "G-3" "H-4" "I-1" "J-2" "K-3" "L-4"
+    [13] "M-1" "N-2" "O-3" "P-4" "Q-1" "R-2" "S-3" "T-4" "U-1" "V-2" "W-3" "X-4"
+    [25] "Y-1" "Z-2"
+
 По итогу прохождения данного урока можно сделать следующие выводы:
 
 1.  Векторы могут хранить разные значения, в том числе и логические
@@ -204,6 +587,95 @@ alt="Выбор первого задания" />
 
 #### Пятое задание (Missing Values)
 
+``` r
+x <- c(44, NA, 5, NA)
+```
+
+``` r
+x * 3
+```
+
+    [1] 132  NA  15  NA
+
+``` r
+y <- rnorm(1000)
+```
+
+``` r
+z <- rep(NA, 1000)
+```
+
+``` r
+my_data <- sample(c(y, z), 100)
+```
+
+``` r
+my_na <- is.na(my_data)
+```
+
+``` r
+my_na
+```
+
+      [1] FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE
+     [13]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
+     [25] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+     [37] FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+     [49] FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE
+     [61] FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE
+     [73] FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
+     [85] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE
+     [97]  TRUE  TRUE  TRUE FALSE
+
+``` r
+my_data == NA
+```
+
+      [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+     [26] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+     [51] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+     [76] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+
+``` r
+sum(my_na)
+```
+
+    [1] 49
+
+``` r
+my_data
+```
+
+      [1] -0.04657491          NA  1.06158721  0.02579615          NA          NA
+      [7]          NA  0.12315341 -0.47463994  0.69582893 -0.70400994          NA
+     [13]          NA -1.14082917          NA          NA  0.92805730          NA
+     [19]          NA          NA          NA -1.06582864          NA -0.06335669
+     [25] -0.57058814          NA          NA -0.67811586  0.04309373          NA
+     [31]          NA  1.99024182          NA          NA  1.34919006  0.72894439
+     [37] -0.89823396  0.30834067  0.23111654          NA          NA -2.26082288
+     [43]  0.22827692  0.77653994          NA          NA          NA          NA
+     [49] -1.96383122 -0.56542245          NA          NA -0.28076397          NA
+     [55]  0.20400755  1.04209025 -1.57849327          NA  2.48790779          NA
+     [61] -0.07013099          NA -0.36356309          NA          NA          NA
+     [67]  0.39292713          NA          NA  0.29227226          NA  2.22381896
+     [73] -0.17726825          NA          NA -1.01642979 -0.70243848 -1.18381815
+     [79]  0.04531560  0.07652013          NA          NA          NA          NA
+     [85]  0.27838918 -0.43285816  0.48324893  1.30562285 -0.44636939  0.65663763
+     [91]          NA -1.75182487          NA  0.17528089  1.55590203          NA
+     [97]          NA          NA          NA -1.61558314
+
+``` r
+0 / 0
+```
+
+    [1] NaN
+
+``` r
+Inf - Inf
+```
+
+    [1] NaN
+
 1.  В R существует специальное значение: `NA` - пропущенное или
     некоторое содержимое, которое не имеет значения. К NA не применяются
     арифметические выражения.
@@ -217,34 +689,6 @@ alt="Выбор первого задания" />
 
 4.  Имеется еще ряд специальных значений: `NAN` - не число, получается
     путём деления 0 на 0 и `Inf`
-
-### Шаг 4
-
-**На данном шаге происходит создание репозитория на gitHub и загрузка
-изменений**
-
-На сайте gitHub был создан репозиторий, для хранения практических работ
-
-<figure>
-<img src="./images/create_repo.png"
-alt="Создание репозитория на GitHub" />
-<figcaption aria-hidden="true"><em>Создание репозитория на
-GitHub</em></figcaption>
-</figure>
-
-После этого происходит сохранение изменений (commit) и отправка
-изменений в удаленный репозиторий (push)
-
-<figure>
-<img src="./images/commit_repo.png" alt="Сохранение изменений" />
-<figcaption aria-hidden="true"><em>Сохранение
-изменений</em></figcaption>
-</figure>
-
-<figure>
-<img src="./images/push_repo.png" alt="Отправка изменений" />
-<figcaption aria-hidden="true"><em>Отправка изменений</em></figcaption>
-</figure>
 
 ## Оценка результатов
 
