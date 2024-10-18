@@ -29,7 +29,7 @@
 
 5.  Github
 
-## План выполнения работы
+## Общий план выполнения работы
 
 1.  Установить пакет swirl
 
@@ -169,7 +169,7 @@ z
 ?c
 ```
 
-    starting httpd help server ... done
+    запускаю httpd сервер помощи... готово
 
 ``` r
 z
@@ -237,8 +237,8 @@ c(1, 2, 3, 4) + c(0, 10)
 c(1, 2, 3, 4) + c(0, 10, 100)
 ```
 
-    Warning in c(1, 2, 3, 4) + c(0, 10, 100): longer object length is not a
-    multiple of shorter object length
+    Warning in c(1, 2, 3, 4) + c(0, 10, 100): длина большего объекта не является
+    произведением длины меньшего объекта
 
     [1]   1  12 103   4
 
@@ -260,7 +260,7 @@ my_div
 getwd()
 ```
 
-    [1] "C:/Users/ivanu/Универ/ИАТПУИБ/Works/Pr1"
+    [1] "C:/Users/Kasperoid/Универ/ИАТПУИБ/Reports_IATPUIB/Pr1"
 
 ``` r
 ls()
@@ -282,11 +282,11 @@ ls()
 dir()
 ```
 
-     [1] "images"                    "mytest2.R"                
-     [3] "mytest3.R"                 "Pr1.markdown_strict_files"
-     [5] "README.html"               "README.md"                
-     [7] "README.rmarkdown"          "README.Rmd"               
-     [9] "testdir"                   "testdir2"                 
+    [1] "images"                    "mytest2.R"                
+    [3] "mytest3.R"                 "Pr1.markdown_strict_files"
+    [5] "README.md"                 "README.qmd"               
+    [7] "README.rmarkdown"          "testdir"                  
+    [9] "testdir2"                 
 
 ``` r
 ?list.files
@@ -309,7 +309,7 @@ old.dir <- getwd()
 dir.create("testdir")
 ```
 
-    Warning in dir.create("testdir"): 'testdir' already exists
+    Warning in dir.create("testdir"): 'testdir' уже существует
 
 ``` r
 setwd("testdir")
@@ -327,10 +327,9 @@ list.files()
 
      [1] "images"                    "mytest.R"                 
      [3] "mytest2.R"                 "mytest3.R"                
-     [5] "Pr1.markdown_strict_files" "README.html"              
-     [7] "README.md"                 "README.rmarkdown"         
-     [9] "README.Rmd"                "testdir"                  
-    [11] "testdir2"                 
+     [5] "Pr1.markdown_strict_files" "README.md"                
+     [7] "README.qmd"                "README.rmarkdown"         
+     [9] "testdir"                   "testdir2"                 
 
 ``` r
 file.exists("mytest.R")
@@ -343,9 +342,9 @@ file.info("mytest.R")
 ```
 
              size isdir mode               mtime               ctime
-    mytest.R    0 FALSE  666 2024-09-22 00:24:58 2024-09-22 00:24:58
+    mytest.R    0 FALSE  666 2024-10-18 20:12:02 2024-10-18 20:12:02
                            atime exe
-    mytest.R 2024-09-22 00:24:58  no
+    mytest.R 2024-10-18 20:12:02  no
 
 ``` r
 file.rename("mytest.R", "mytest2.R")
@@ -380,7 +379,7 @@ dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
 ```
 
     Warning in dir.create(file.path("testdir2", "testdir3"), recursive = TRUE):
-    'testdir2\testdir3' already exists
+    'testdir2\testdir3' уже существует
 
 ``` r
 setwd(old.dir)
@@ -617,15 +616,15 @@ my_na <- is.na(my_data)
 my_na
 ```
 
-      [1] FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE
-     [13]  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
-     [25] FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE
-     [37] FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
-     [49] FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE
-     [61] FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE
-     [73] FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE
-     [85] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE
-     [97]  TRUE  TRUE  TRUE FALSE
+      [1] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
+     [13] FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+     [25] FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE
+     [37] FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE
+     [49]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
+     [61] FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+     [73]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE
+     [85] FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE
+     [97] FALSE FALSE  TRUE  TRUE
 
 ``` r
 my_data == NA
@@ -640,29 +639,29 @@ my_data == NA
 sum(my_na)
 ```
 
-    [1] 49
+    [1] 48
 
 ``` r
 my_data
 ```
 
-      [1] -0.04657491          NA  1.06158721  0.02579615          NA          NA
-      [7]          NA  0.12315341 -0.47463994  0.69582893 -0.70400994          NA
-     [13]          NA -1.14082917          NA          NA  0.92805730          NA
-     [19]          NA          NA          NA -1.06582864          NA -0.06335669
-     [25] -0.57058814          NA          NA -0.67811586  0.04309373          NA
-     [31]          NA  1.99024182          NA          NA  1.34919006  0.72894439
-     [37] -0.89823396  0.30834067  0.23111654          NA          NA -2.26082288
-     [43]  0.22827692  0.77653994          NA          NA          NA          NA
-     [49] -1.96383122 -0.56542245          NA          NA -0.28076397          NA
-     [55]  0.20400755  1.04209025 -1.57849327          NA  2.48790779          NA
-     [61] -0.07013099          NA -0.36356309          NA          NA          NA
-     [67]  0.39292713          NA          NA  0.29227226          NA  2.22381896
-     [73] -0.17726825          NA          NA -1.01642979 -0.70243848 -1.18381815
-     [79]  0.04531560  0.07652013          NA          NA          NA          NA
-     [85]  0.27838918 -0.43285816  0.48324893  1.30562285 -0.44636939  0.65663763
-     [91]          NA -1.75182487          NA  0.17528089  1.55590203          NA
-     [97]          NA          NA          NA -1.61558314
+      [1]  0.43945180 -1.61884465  0.90202829 -1.08202975          NA  1.69892745
+      [7]          NA          NA -1.40400634  1.14829667          NA          NA
+     [13] -0.39353014 -0.43686079  1.03396958          NA -1.55519063  0.68823836
+     [19]          NA  0.87623900  0.41891230 -1.42878523 -0.39926201  1.84056275
+     [25] -0.51255329          NA -0.54212249  0.07178514          NA          NA
+     [31] -0.51293544          NA  0.39699660          NA          NA  0.01181908
+     [37]  0.57901032          NA  0.56969307 -0.39997119          NA -0.21494456
+     [43]          NA -2.23442873 -0.26201490  0.32904799          NA -1.99061497
+     [49]          NA          NA -0.92270770          NA          NA          NA
+     [55]          NA          NA  0.45073738  0.98885231          NA          NA
+     [61]  0.15706431          NA          NA  0.23350042          NA          NA
+     [67]          NA          NA          NA          NA  0.30386034          NA
+     [73]          NA -1.13773053 -0.51707843  0.20810136          NA -0.27341719
+     [79] -0.99509026          NA  0.80216650          NA          NA -0.55163943
+     [85]  0.36619702          NA          NA  1.15569401  1.10846386          NA
+     [91]  1.18996159  1.03851164          NA  0.74303859          NA          NA
+     [97]  1.15139985 -1.51044362          NA          NA
 
 ``` r
 0 / 0
