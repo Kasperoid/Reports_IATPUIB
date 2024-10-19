@@ -1,0 +1,226 @@
+---
+format:
+  md:
+    output-file: README.md
+editor: visual
+---
+
+# Практическое задание 5
+
+Исследование информации о состоянии бепроводных сетей
+
+## Цель
+
+1.  Получить знания о методах исследования радиоэлектронной обстановки
+2.  Составить прдставление о механизмах работы Wi-Fi сетей на канальном и сетевом уровне модели OSI
+3.  Зекрепить практические навыки использования языка программирования R для обработки данных
+4.  Закрепить знания основных функций обработки данных экосистемы tidyverse языка R
+
+## Исходные даннные
+
+1.  Персональный компьютер
+
+2.  Браузер
+
+3.  R studio
+
+4.  Программный пакет dplyr
+
+5.  tidyverse
+
+6.  CSV-файл с данными для анализа
+
+## Общий план выполнения
+
+1.  Подготовка данных
+    -   Импорт данных
+    -   Преобразование датасетов в вид "аккуратных данных"
+    -   Просмотр общей структуры данных
+2.  Анализ данных
+    -   Точки доступа
+    -   Данных клиентов
+3.  Подготовить отчёт
+
+## Содержание ПР
+
+### Шаг 1
+
+**На данном шаге производится подготовка данных для дальнейшего анализа**
+
+Использование пакета tidyverse
+
+```{r}
+library(tidyverse)
+```
+
+Для импорта csv-файла понадобится библиотека readr
+
+```{r}
+library(readr)
+```
+
+Импортирование данных из данного csv файла
+
+```{r}
+allDataCsv <- read.csv('./P2_wifi_data.csv')
+allDataCsv
+```
+
+Так как формат CSV лога меняется внутри файла, то необходимо его разделить на два датасета (до 167 строки включительно - первый датасет, далее - второй датасет)
+
+Получение данных об анонсах бепроводных точек доступа
+
+```{r}
+wireNetData <- read.csv('./P2_wifi_data.csv', nrows = 167)
+wireNetData
+```
+
+Получение данных о запросах на подключение клиентов к известным их точкам доступа
+
+```{r}
+requestData <- read.csv('./P2_wifi_data.csv', skip = 169)
+requestData
+```
+
+Далее производится преобразование датасетов в вид "аккуратных данных"
+
+Для анонсов
+
+```{r}
+wireNetData <- wireNetData %>% 
+  mutate_at(vars(BSSID, Privacy, Cipher, Authentication, LAN.IP, ESSID), trimws) %>%
+  mutate_at(vars(BSSID, Privacy, Cipher, Authentication, LAN.IP, ESSID), na_if, "")
+
+wireNetData$First.time.seen <- as.POSIXct(wireNetData$First.time.seen, format = "%Y-%m-%d %H:%M:%S")
+wireNetData$Last.time.seen <- as.POSIXct(wireNetData$Last.time.seen, format = "%Y-%m-%d %H:%M:%S")
+```
+
+Для запросов
+
+```{r}
+requestData <- requestData %>% 
+  mutate_at(vars(Station.MAC, BSSID, Probed.ESSIDs), trimws) %>%
+  mutate_at(vars(Station.MAC, BSSID, Probed.ESSIDs), na_if, "")
+
+requestData$First.time.seen <- as.POSIXct(requestData$First.time.seen, format = "%Y-%m-%d %H:%M:%S")
+requestData$Last.time.seen <- as.POSIXct(requestData$Last.time.seen, format = "%Y-%m-%d %H:%M:%S")
+```
+
+Просмотр общей структуры данных
+
+```{r}
+glimpse(wireNetData)
+```
+
+```{r}
+glimpse(requestData)
+```
+
+### Шаг 2
+
+#### Точки доступа
+
+**На этом шаге производится выполнение заданий по анализу данных**
+
+1\. Определить небезопасные точки доступа (без шифрования – OPN)
+
+```{r}
+allOpnId <- wireNetData %>% filter(Privacy == 'OPN') %>% select(BSSID)
+unique(allOpnId)
+```
+
+2\. Определить производителя для каждого обнаруженного устройства
+
+Для определния будет использоваться база данных производителей из состава Wireshark
+
+-   E8:28:C1 - Eltex Enterprise Ltd.
+
+-   00:25:00 - Apple, Inc
+
+-   E0:D9:E3 - Eltex Enterprise Ltd.
+
+-   00:26:99 - Cisco Systems, Inc
+
+-   00:03:7A - Taiyo Yuden Co., Ltd.
+
+-   00:03:7F6 - Atheros Communications, Inc.
+
+3\. Выявить устройства, использующие последнюю версию протокола шифрования WPA3, и названия точек доступа, реализованных на этих устройствах
+
+```{r}
+wireNetData %>% filter(str_detect(wireNetData$Privacy, 'WPA3') == TRUE) %>% select(BSSID, ESSID, Privacy)
+```
+
+4\. Отсортировать точки доступа по интрвалу времени, в течении которого они находились на связи, по убыванию.
+
+```{r}
+wireNetData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "mins")) %>% arrange(desc(Time)) %>% select(BSSID, Time)
+```
+
+5\. Обнаружить топ-10 самых быстрых точек доступа
+
+```{r}
+wireNetData %>% arrange(desc(Speed)) %>% head(10) %>% select(BSSID, Speed)
+```
+
+6\. Отсортировать точки доступа по частоте отправки запросов в единицу времени по их убыванию
+
+```{r}
+wireNetData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "sec")) %>% filter(!is.na(Time)) %>% filter(Time != 0) %>% filter(X..beacons != 0) %>% select(BSSID, X..beacons, Time) %>% mutate(Beacon_sec = X..beacons / as.integer(Time)) %>% arrange(desc(Beacon_sec))
+```
+
+#### Данные клиентов
+
+1\. Определить производителя для каждого обнаруженного устройства
+
+Используется база данных производителей из состава Wireshark
+
+```{r}
+allDecices <- requestData %>% filter(BSSID != '(not associated)') %>% select(BSSID)
+unique(allDecices)
+```
+
+-   00:25:00 Apple, Inc.
+
+-   00:03:7F Atheros Communications, Inc.
+
+-   00:23:EB Cisco Systems, Inc
+
+-   00:0D:97 Hitachi Energy USA Inc.
+
+-   08:3A:2F Guangzhou Juan Intelligent Tech Joint Stock Co.,Ltd
+
+-   E0:D9:E3 Eltex Enterprise Ltd.
+
+-   DC:09:4C Huawei Technologies Co.,Ltd
+
+-   E8:28:C1 Eltex Enterprise Ltd.
+
+-   0C:80:63 Tp-Link Technologies Co.,Ltd.
+
+-   00:26:99 Cisco Systems, Inc
+
+2\. Обнаружить устройства, которые НЕ рандомизируют свой MAC адрес
+
+**??????!!!**
+
+3\. Кластеризовать запросы от устройств к точкам доступа по их именам. Определить время появления устройства в зоне радиовидимости и время выхода его из нее.
+
+```{r}
+requestData %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>%  summarise("Появление" = min(First.time.seen), "Выход" = max(Last.time.seen))
+```
+
+4\. Оценить стабильность уровня сигнала внури кластера во времени. Выявить наиболее стабильный кластер
+
+```{r}
+requestData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "sec")) %>% filter(as.integer(Time) != 0) %>% arrange(desc(as.integer(Time))) %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>% summarise(Mean = mean(as.integer(Time)), Sd = sd(as.integer(Time))) %>% filter(!is.na(Sd)) %>% filter(Sd != 0) %>% arrange(Sd) %>% head(1)
+```
+
+## Оценка результатов
+
+1.  Были успешно получены данные из csv-файла и преобразованы в вид "аккуратных данных"
+2.  Был произведен анализ полученных данных, используя функционал tidyverse
+
+## Вывод
+
+В результате выполнения работы были получены знания о методах исследования радиоэлектронной обстановки и о механизмах работы Wi-Fi сетей на канальном и сетевом уровне модели OSI. Так же закреплены практические навыки использования языка R для обработки данных и основные функции обработки данных экосистемы tidyverse
