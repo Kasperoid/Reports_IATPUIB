@@ -63,7 +63,7 @@ library(readr)
 
 ```{r}
 allDataCsv <- read.csv('./P2_wifi_data.csv')
-allDataCsv
+head(allDataCsv)
 ```
 
 Так как формат CSV лога меняется внутри файла, то необходимо его разделить на два датасета (до 167 строки включительно - первый датасет, далее - второй датасет)
@@ -72,14 +72,14 @@ allDataCsv
 
 ```{r}
 wireNetData <- read.csv('./P2_wifi_data.csv', nrows = 167)
-wireNetData
+head(wireNetData)
 ```
 
 Получение данных о запросах на подключение клиентов к известным их точкам доступа
 
 ```{r}
 requestData <- read.csv('./P2_wifi_data.csv', skip = 169)
-requestData
+head(requestData)
 ```
 
 Далее производится преобразование датасетов в вид "аккуратных данных"
@@ -126,7 +126,7 @@ glimpse(requestData)
 
 ```{r}
 allOpnId <- wireNetData %>% filter(Privacy == 'OPN') %>% select(BSSID)
-unique(allOpnId)
+head(unique(allOpnId))
 ```
 
 2\. Определить производителя для каждого обнаруженного устройства
@@ -155,6 +155,8 @@ wireNetData %>% filter(str_detect(wireNetData$Privacy, 'WPA3') == TRUE) %>% sele
 
 ```{r}
 wireNetData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "mins")) %>% arrange(desc(Time)) %>% select(BSSID, Time)
+
+head(wireNetData)
 ```
 
 5\. Обнаружить топ-10 самых быстрых точек доступа
@@ -167,6 +169,8 @@ wireNetData %>% arrange(desc(Speed)) %>% head(10) %>% select(BSSID, Speed)
 
 ```{r}
 wireNetData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "sec")) %>% filter(!is.na(Time)) %>% filter(Time != 0) %>% filter(X..beacons != 0) %>% select(BSSID, X..beacons, Time) %>% mutate(Beacon_sec = X..beacons / as.integer(Time)) %>% arrange(desc(Beacon_sec))
+
+head(wireNetData)
 ```
 
 #### Данные клиентов
@@ -203,20 +207,25 @@ unique(allDecices)
 2\. Обнаружить устройства, которые НЕ рандомизируют свой MAC адрес
 
 ```{r}
-requestData %>% filter(grepl("(.2:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.6:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.A:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.E:..:..:)(..:..:..)", Station.MAC)!=TRUE) %>%  select(Station.MAC)
+result <- requestData %>% filter(grepl("(.2:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.6:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.A:..:..:)(..:..:..)", Station.MAC)!=TRUE & grepl("(.E:..:..:)(..:..:..)", Station.MAC)!=TRUE) %>%  select(Station.MAC)
 
+head(result)
 ```
 
 3\. Кластеризовать запросы от устройств к точкам доступа по их именам. Определить время появления устройства в зоне радиовидимости и время выхода его из нее.
 
 ```{r}
-requestData %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>%  summarise("Появление" = min(First.time.seen), "Выход" = max(Last.time.seen))
+result1 <- requestData %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>%  summarise("Появление" = min(First.time.seen), "Выход" = max(Last.time.seen))
+
+head(result1)
 ```
 
 4\. Оценить стабильность уровня сигнала внури кластера во времени. Выявить наиболее стабильный кластер
 
 ```{r}
-requestData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "sec")) %>% filter(as.integer(Time) != 0) %>% arrange(desc(as.integer(Time))) %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>% summarise(Mean = mean(as.integer(Time)), Sd = sd(as.integer(Time))) %>% filter(!is.na(Sd)) %>% filter(Sd != 0) %>% arrange(Sd) %>% head(1)
+result2 <- requestData %>% mutate(Time = difftime(Last.time.seen, First.time.seen, units = "sec")) %>% filter(as.integer(Time) != 0) %>% arrange(desc(as.integer(Time))) %>% filter(!is.na(Probed.ESSIDs)) %>% group_by(Probed.ESSIDs) %>% summarise(Mean = mean(as.integer(Time)), Sd = sd(as.integer(Time))) %>% filter(!is.na(Sd)) %>% filter(Sd != 0) %>% arrange(Sd) %>% head(1)
+
+result2
 ```
 
 ## Оценка результатов
