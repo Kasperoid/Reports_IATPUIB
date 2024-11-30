@@ -36,7 +36,27 @@
 
 ### Шаг 1. Импорт данных
 
+**На данном шаге происходит импорт данных**
+
+``` r
+library(DBI)
+library(dplyr)
+```
+
+
+    Attaching package: 'dplyr'
+
+    The following objects are masked from 'package:stats':
+
+        filter, lag
+
+    The following objects are masked from 'package:base':
+
+        intersect, setdiff, setequal, union
+
 ### Шаг 2. Выполнение заданий
+
+**На данном шаге происходит выполнение заданий**
 
 #### Задание 1. Найдите утечку данных из Вашей сети
 
@@ -45,6 +65,8 @@
 #### Задание 3. Найдите утечку данных 3
 
 ### Шаг 3. Создание отчета
+
+**На данном шаге происходит создание отчета**
 
 ## Оценка результатов
 
