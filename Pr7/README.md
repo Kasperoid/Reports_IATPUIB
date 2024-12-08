@@ -114,7 +114,7 @@ library(tidyverse)
 
 ``` r
 internal_traffic <- df %>%
-  filter(grepl("^12\\.|^13\\.|^14\\.", src))
+  filter(grepl("^12\\.|^13\\.|^14\\.", src)) %>% filter(!grepl("^12\\.|^13\\.|^14\\.", dst))
 ```
 
 Группировка данных, суммирование объема переданных данных, сортировка по
@@ -142,7 +142,7 @@ top_ip
     # A tibble: 1 × 2
       src          total_bytes_sent
       <chr>                   <dbl>
-    1 13.37.84.125      11152202376
+    1 13.37.84.125      10625497574
 
 Ответ: 13.37.84.125
 
@@ -155,7 +155,7 @@ top_ip
 адрес отличается от нарушителя из предыдущей задачи.
 
 ``` r
-hourly_traffic <- df%>%select(timestamp, src, dst, bytes)%>%mutate(trafic=grepl("^12.|^13.|^14.", src) & !grepl("^12.|^13.|^14.",dst),time=hour(as_datetime(timestamp/1000))) %>%filter(trafic==TRUE,time>=0&time<=24)%>% group_by(time)%>%summarise(trafictime=n())%>%arrange(desc(time))
+hourly_traffic <- internal_traffic%>%select(timestamp, src, dst, bytes)%>%mutate(time=hour(as_datetime(timestamp/1000))) %>%filter(time>=0&time<=24)%>% group_by(time)%>%summarise(trafictime=n())%>%arrange(desc(time))
 ```
 
 ``` r
@@ -180,12 +180,11 @@ print(hourly_traffic)
 Из таблицы выше - предполагаемые рабочие часы: 16 - 23, нерабочие: 1-15
 
 ``` r
-traffic_noWork <- df %>% mutate(
+traffic_noWork <- internal_traffic %>% mutate(
    time=hour(as_datetime(timestamp/1000))
   ) %>%
   filter(
     time >= 1 & time <= 15,
-    grepl("^(12|13|14)\\.", src),
     src != '13.37.84.125'
   ) %>%
   group_by(src) %>%
@@ -204,7 +203,7 @@ print(head(traffic_noWork, 1))
     # A tibble: 1 × 2
       src         total_bytes
       <chr>             <int>
-    1 12.55.77.96   298669501
+    1 12.55.77.96   286315073
 
 Ответ: 12.55.77.96
 
@@ -217,33 +216,56 @@ print(head(traffic_noWork, 1))
 номер порта. Определите IP этой системы. Известно, что ее IP адрес
 отличается от нарушителей из предыдущих задач.
 
+Необходимо найти порт, у которого разница между максимальным потоком и
+средним по порту - наибольшая
+
 ``` r
-result <- df %>%
-  filter(grepl("^(12|13|14)\\.", src), src != "13.37.84.125", src != "12.55.77.96") %>%
+ports <- internal_traffic %>%
+ filter(src != '13.37.84.125' & src != '12.55.77.96') %>%
   group_by(port) %>%
-  # Средний объем трафика для каждого порта
-  mutate(port_avg_bytes = mean(bytes)) %>%
-  group_by(port, src) %>%
   summarise(
-    total_bytes = sum(bytes),
-    port_avg = first(port_avg_bytes),
-    # Во сколько раз трафик превышает средний по порту
-    ratio = total_bytes / port_avg,
-    .groups = 'drop'
+    mean_bytes = mean(bytes),
+    max_bytes = max(bytes),
+    sum_bytes = sum(bytes),
+    Raz = max_bytes - mean_bytes
   ) %>%
-  arrange(desc(ratio))
+  filter(Raz != 0) %>%
+  arrange(desc(Raz))
 ```
 
 ``` r
-print(head(result, 1))
+print(head(ports, 1))
 ```
 
     # A tibble: 1 × 5
-       port src         total_bytes port_avg ratio
-      <int> <chr>             <int>    <dbl> <dbl>
-    1    83 13.39.46.94     9077865    1000. 9082.
+       port mean_bytes max_bytes   sum_bytes     Raz
+      <int>      <dbl>     <int>       <dbl>   <dbl>
+    1    37     35090.    209402 32136394510 174312.
 
-Ответ: 13.39.46.94
+37 порт - подозрительный, поэтому выборка будет прозводится по 37 порту
+
+``` r
+result <- internal_traffic %>%
+  filter(port == 37) %>%
+  group_by(src) %>%
+  arrange(desc(bytes)) %>% select(port, src, bytes) %>% head(5)
+```
+
+``` r
+print(result)
+```
+
+    # A tibble: 5 × 3
+    # Groups:   src [5]
+       port src           bytes
+      <int> <chr>         <int>
+    1    37 13.38.72.85  209402
+    2    37 12.49.76.124 187364
+    3    37 14.33.32.62  176425
+    4    37 13.45.47.36  176180
+    5    37 14.59.76.76  175368
+
+Ответ: 13.38.72.85
 
 ## Оценка результатов
 
