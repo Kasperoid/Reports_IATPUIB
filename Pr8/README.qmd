@@ -43,7 +43,7 @@ editor: visual
 Установка duckdb
 
 ```{r}
-#install.packages('duckdb', repos=c('https://duckdb.r-universe.dev', 'https://cloud.r-project.org'), INSTALL_opts = '--no-lock')
+#install.packages('duckdb', repos=c('https://duckdb.r-universe.dev', 'https://cloud.r-project.org'), INSTALL_opts = '--no-lock', dependencies = TRUE)
 ```
 
 Подключение библиотек
