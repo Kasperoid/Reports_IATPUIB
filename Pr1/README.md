@@ -15,8 +15,6 @@
 
 4.  Пройти обучающие уроки в swirl
 
-5.  Создать репозиторий на GitHub и запушить проект
-
 ## Исходные данные
 
 1.  Ноутбук
@@ -169,7 +167,7 @@ z
 ?c
 ```
 
-    запускаю httpd сервер помощи... готово
+    starting httpd help server ... done
 
 ``` r
 z
@@ -237,8 +235,8 @@ c(1, 2, 3, 4) + c(0, 10)
 c(1, 2, 3, 4) + c(0, 10, 100)
 ```
 
-    Warning in c(1, 2, 3, 4) + c(0, 10, 100): длина большего объекта не является
-    произведением длины меньшего объекта
+    Warning in c(1, 2, 3, 4) + c(0, 10, 100): longer object length is not a
+    multiple of shorter object length
 
     [1]   1  12 103   4
 
@@ -260,7 +258,7 @@ my_div
 getwd()
 ```
 
-    [1] "C:/Users/Kasperoid/Универ/ИАТПУИБ/Reports_IATPUIB/Pr1"
+    [1] "C:/Users/ivanu/Универ/ИАТПУИБ/Works/Pr1"
 
 ``` r
 ls()
@@ -282,11 +280,9 @@ ls()
 dir()
 ```
 
-    [1] "images"                    "mytest2.R"                
-    [3] "mytest3.R"                 "Pr1.markdown_strict_files"
-    [5] "README.md"                 "README.qmd"               
-    [7] "README.rmarkdown"          "testdir"                  
-    [9] "testdir2"                 
+    [1] "images"                    "Pr1.markdown_strict_files"
+    [3] "README.html"               "README.md"                
+    [5] "README.qmd"                "README.rmarkdown"         
 
 ``` r
 ?list.files
@@ -309,8 +305,6 @@ old.dir <- getwd()
 dir.create("testdir")
 ```
 
-    Warning in dir.create("testdir"): 'testdir' уже существует
-
 ``` r
 setwd("testdir")
 ```
@@ -325,11 +319,10 @@ file.create("mytest.R")
 list.files()
 ```
 
-     [1] "images"                    "mytest.R"                 
-     [3] "mytest2.R"                 "mytest3.R"                
-     [5] "Pr1.markdown_strict_files" "README.md"                
-     [7] "README.qmd"                "README.rmarkdown"         
-     [9] "testdir"                   "testdir2"                 
+    [1] "images"                    "mytest.R"                 
+    [3] "Pr1.markdown_strict_files" "README.html"              
+    [5] "README.md"                 "README.qmd"               
+    [7] "README.rmarkdown"          "testdir"                  
 
 ``` r
 file.exists("mytest.R")
@@ -342,9 +335,9 @@ file.info("mytest.R")
 ```
 
              size isdir mode               mtime               ctime
-    mytest.R    0 FALSE  666 2024-10-18 20:12:02 2024-10-18 20:12:02
+    mytest.R    0 FALSE  666 2024-12-11 22:02:57 2024-12-11 22:02:57
                            atime exe
-    mytest.R 2024-10-18 20:12:02  no
+    mytest.R 2024-12-11 22:02:57  no
 
 ``` r
 file.rename("mytest.R", "mytest2.R")
@@ -356,7 +349,7 @@ file.rename("mytest.R", "mytest2.R")
 file.copy("mytest2.R","mytest3.R")
 ```
 
-    [1] FALSE
+    [1] TRUE
 
 ``` r
 file.path("mytest3.R")
@@ -377,9 +370,6 @@ file.path("folder1", "folder2")
 ``` r
 dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
 ```
-
-    Warning in dir.create(file.path("testdir2", "testdir3"), recursive = TRUE):
-    'testdir2\testdir3' уже существует
 
 ``` r
 setwd(old.dir)
@@ -616,15 +606,15 @@ my_na <- is.na(my_data)
 my_na
 ```
 
-      [1] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
-     [13] FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
-     [25] FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE
-     [37] FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE
-     [49]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE
-     [61] FALSE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
-     [73]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE
-     [85] FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE
-     [97] FALSE FALSE  TRUE  TRUE
+      [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE
+     [13] FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE
+     [25]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
+     [37] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+     [49]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+     [61]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+     [73]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
+     [85]  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+     [97]  TRUE  TRUE  TRUE  TRUE
 
 ``` r
 my_data == NA
@@ -639,29 +629,29 @@ my_data == NA
 sum(my_na)
 ```
 
-    [1] 48
+    [1] 53
 
 ``` r
 my_data
 ```
 
-      [1]  0.43945180 -1.61884465  0.90202829 -1.08202975          NA  1.69892745
-      [7]          NA          NA -1.40400634  1.14829667          NA          NA
-     [13] -0.39353014 -0.43686079  1.03396958          NA -1.55519063  0.68823836
-     [19]          NA  0.87623900  0.41891230 -1.42878523 -0.39926201  1.84056275
-     [25] -0.51255329          NA -0.54212249  0.07178514          NA          NA
-     [31] -0.51293544          NA  0.39699660          NA          NA  0.01181908
-     [37]  0.57901032          NA  0.56969307 -0.39997119          NA -0.21494456
-     [43]          NA -2.23442873 -0.26201490  0.32904799          NA -1.99061497
-     [49]          NA          NA -0.92270770          NA          NA          NA
-     [55]          NA          NA  0.45073738  0.98885231          NA          NA
-     [61]  0.15706431          NA          NA  0.23350042          NA          NA
-     [67]          NA          NA          NA          NA  0.30386034          NA
-     [73]          NA -1.13773053 -0.51707843  0.20810136          NA -0.27341719
-     [79] -0.99509026          NA  0.80216650          NA          NA -0.55163943
-     [85]  0.36619702          NA          NA  1.15569401  1.10846386          NA
-     [91]  1.18996159  1.03851164          NA  0.74303859          NA          NA
-     [97]  1.15139985 -1.51044362          NA          NA
+      [1]          NA          NA -1.60792080          NA  0.52404615          NA
+      [7]          NA  0.18711005  0.49507965          NA  0.13524182 -1.09146002
+     [13] -1.59339079  0.14730087          NA          NA          NA -0.02448282
+     [19] -1.83781896 -0.43114839          NA -0.62621115          NA  0.95692012
+     [25]          NA -0.05663142 -0.51809139 -0.42991607          NA -0.12633108
+     [31] -0.33583095 -0.34223587          NA          NA  0.61901540 -0.84309629
+     [37] -0.55150366 -0.67482225  0.56641838  0.13743538 -0.15919388          NA
+     [43]          NA          NA          NA          NA          NA          NA
+     [49]          NA          NA          NA          NA  0.24839652          NA
+     [55]          NA          NA          NA -1.98805069          NA          NA
+     [61]          NA -0.37240373          NA -0.45522918  1.63212313          NA
+     [67] -1.22569399 -1.02792663          NA  0.51455726 -1.58809544          NA
+     [73]          NA -1.50678245 -2.06695545 -1.99456048  1.18873415 -0.76615434
+     [79] -0.18762669 -0.42868165 -0.53811753          NA          NA  0.70058596
+     [85]          NA  0.01561893          NA -0.53745148          NA          NA
+     [91]          NA          NA          NA          NA -0.99129079          NA
+     [97]          NA          NA          NA          NA
 
 ``` r
 0 / 0
@@ -691,15 +681,8 @@ Inf - Inf
 
 ## Оценка результатов
 
-1.  Была подготовлена и настроена для работы среда RStudio
-
-2.  Удалось познакомиться с методом составления отчета с помощью
-    Rmarkdown
-
-3.  Была произведена работа с языком R, знакомство с основами данного
+1.  Была произведена работа с языком R, знакомство с основами данного
     языка и особенностями
-
-4.  Работа успешно загружена в репозиторий GitHub
 
 ## Вывод
 
