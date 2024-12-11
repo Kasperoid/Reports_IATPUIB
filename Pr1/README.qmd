@@ -5,10 +5,6 @@ format:
 editor: "visual"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Практика № 1
 
 Введение в R
@@ -67,7 +63,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 После скачивания пакета заданий, просиходит выбор необходимых заданий
 
-![*Выбор первого задания*](./images/select_first_lesson)
+![*Выбор первого задания*](images/select_first_lesson.png)
 
 #### Первое задание (Basic Building Blocks)
 

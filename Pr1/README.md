@@ -72,8 +72,7 @@ alt="Регистрация и установка пакета" />
 После скачивания пакета заданий, просиходит выбор необходимых заданий
 
 <figure>
-<img src="./images/select_first_lesson.png"
-alt="Выбор первого задания" />
+<img src="images/select_first_lesson.png" alt="Выбор первого задания" />
 <figcaption aria-hidden="true"><em>Выбор первого
 задания</em></figcaption>
 </figure>
@@ -280,9 +279,11 @@ ls()
 dir()
 ```
 
-    [1] "images"                    "Pr1.markdown_strict_files"
-    [3] "README.html"               "README.md"                
-    [5] "README.qmd"                "README.rmarkdown"         
+     [1] "images"                    "mytest2.R"                
+     [3] "mytest3.R"                 "Pr1.markdown_strict_files"
+     [5] "README.html"               "README.md"                
+     [7] "README.qmd"                "README.rmarkdown"         
+     [9] "testdir"                   "testdir2"                 
 
 ``` r
 ?list.files
@@ -305,6 +306,8 @@ old.dir <- getwd()
 dir.create("testdir")
 ```
 
+    Warning in dir.create("testdir"): 'testdir' already exists
+
 ``` r
 setwd("testdir")
 ```
@@ -319,10 +322,12 @@ file.create("mytest.R")
 list.files()
 ```
 
-    [1] "images"                    "mytest.R"                 
-    [3] "Pr1.markdown_strict_files" "README.html"              
-    [5] "README.md"                 "README.qmd"               
-    [7] "README.rmarkdown"          "testdir"                  
+     [1] "images"                    "mytest.R"                 
+     [3] "mytest2.R"                 "mytest3.R"                
+     [5] "Pr1.markdown_strict_files" "README.html"              
+     [7] "README.md"                 "README.qmd"               
+     [9] "README.rmarkdown"          "testdir"                  
+    [11] "testdir2"                 
 
 ``` r
 file.exists("mytest.R")
@@ -335,9 +340,9 @@ file.info("mytest.R")
 ```
 
              size isdir mode               mtime               ctime
-    mytest.R    0 FALSE  666 2024-12-11 22:02:57 2024-12-11 22:02:57
+    mytest.R    0 FALSE  666 2024-12-11 22:04:43 2024-12-11 22:04:43
                            atime exe
-    mytest.R 2024-12-11 22:02:57  no
+    mytest.R 2024-12-11 22:04:43  no
 
 ``` r
 file.rename("mytest.R", "mytest2.R")
@@ -349,7 +354,7 @@ file.rename("mytest.R", "mytest2.R")
 file.copy("mytest2.R","mytest3.R")
 ```
 
-    [1] TRUE
+    [1] FALSE
 
 ``` r
 file.path("mytest3.R")
@@ -370,6 +375,9 @@ file.path("folder1", "folder2")
 ``` r
 dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
 ```
+
+    Warning in dir.create(file.path("testdir2", "testdir3"), recursive = TRUE):
+    'testdir2\testdir3' already exists
 
 ``` r
 setwd(old.dir)
@@ -606,15 +614,15 @@ my_na <- is.na(my_data)
 my_na
 ```
 
-      [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE
-     [13] FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE
-     [25]  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
-     [37] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-     [49]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
-     [61]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
-     [73]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
-     [85]  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
-     [97]  TRUE  TRUE  TRUE  TRUE
+      [1]  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE
+     [13]  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE
+     [25] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
+     [37]  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
+     [49] FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE
+     [61] FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE
+     [73]  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE
+     [85]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE
+     [97] FALSE  TRUE FALSE FALSE
 
 ``` r
 my_data == NA
@@ -629,29 +637,29 @@ my_data == NA
 sum(my_na)
 ```
 
-    [1] 53
+    [1] 48
 
 ``` r
 my_data
 ```
 
-      [1]          NA          NA -1.60792080          NA  0.52404615          NA
-      [7]          NA  0.18711005  0.49507965          NA  0.13524182 -1.09146002
-     [13] -1.59339079  0.14730087          NA          NA          NA -0.02448282
-     [19] -1.83781896 -0.43114839          NA -0.62621115          NA  0.95692012
-     [25]          NA -0.05663142 -0.51809139 -0.42991607          NA -0.12633108
-     [31] -0.33583095 -0.34223587          NA          NA  0.61901540 -0.84309629
-     [37] -0.55150366 -0.67482225  0.56641838  0.13743538 -0.15919388          NA
-     [43]          NA          NA          NA          NA          NA          NA
-     [49]          NA          NA          NA          NA  0.24839652          NA
-     [55]          NA          NA          NA -1.98805069          NA          NA
-     [61]          NA -0.37240373          NA -0.45522918  1.63212313          NA
-     [67] -1.22569399 -1.02792663          NA  0.51455726 -1.58809544          NA
-     [73]          NA -1.50678245 -2.06695545 -1.99456048  1.18873415 -0.76615434
-     [79] -0.18762669 -0.42868165 -0.53811753          NA          NA  0.70058596
-     [85]          NA  0.01561893          NA -0.53745148          NA          NA
-     [91]          NA          NA          NA          NA -0.99129079          NA
-     [97]          NA          NA          NA          NA
+      [1]          NA  1.16706287 -1.71081371          NA -1.49224239          NA
+      [7]          NA          NA -0.65486688          NA  1.75724859 -0.42955520
+     [13]          NA  1.83182542          NA          NA          NA  0.34941473
+     [19]  1.05448290 -0.27180703          NA  1.87731163  1.77103222          NA
+     [25]  0.12149984          NA  0.77784164  0.35779477 -0.20634584  1.84499100
+     [31]  0.11395153          NA          NA  2.22100734 -1.03133692  0.02736867
+     [37]          NA  0.91528019 -0.56732526  0.02941734          NA          NA
+     [43]          NA          NA          NA -0.42675041          NA -1.09489808
+     [49]  1.02097223          NA          NA          NA  1.67222795          NA
+     [55]  1.18960603  0.39250706          NA -0.66322268 -0.27954607  0.68375358
+     [61] -0.44532550  0.39938554  0.56462115          NA          NA -1.09366051
+     [67]          NA  0.26059618          NA          NA          NA -1.02641704
+     [73]          NA  1.87551122  0.92215063  0.57207061          NA          NA
+     [79]          NA -0.74440036  0.79493860 -1.30747638          NA          NA
+     [85]          NA          NA  0.09559832          NA          NA          NA
+     [91]  0.13709324          NA          NA  0.59129546  0.45318637          NA
+     [97]  1.94858717          NA  1.93489466 -0.55939210
 
 ``` r
 0 / 0
