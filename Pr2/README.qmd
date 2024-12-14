@@ -5,10 +5,6 @@ format:
 editor: "visual"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Практика № 2
 
 Основы обработки данных с помощью R и Dplyr
@@ -58,7 +54,7 @@ library(dplyr)
 **На данном шаге происходит выполнение заданий**
 
 ```{r}
-dplyr::starwars
+starwars <- dplyr::starwars
 ```
 
 #### Задание 1
