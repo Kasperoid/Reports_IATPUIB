@@ -99,6 +99,8 @@ library(dplyr)
 library(tidyverse)
 ```
 
+    Warning: пакет 'ggplot2' был собран под R версии 4.4.2
+
     ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ✔ forcats   1.0.0     ✔ readr     2.1.5
     ✔ ggplot2   3.5.1     ✔ stringr   1.5.1
@@ -177,7 +179,26 @@ print(hourly_traffic)
     10    14     169028
     # ℹ 14 more rows
 
-Из таблицы выше - предполагаемые рабочие часы: 16 - 23, нерабочие: 1-15
+``` r
+install.packages("ggplot2")
+```
+
+    Warning: пакет ''ggplot2'' сейчас используется и не будет установлен
+
+``` r
+library(ggplot2)
+```
+
+``` r
+ggplot(data = hourly_traffic, aes(x = time, y = trafictime)) + 
+  geom_line() +
+  geom_point()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-14-1.png)
+
+Из таблицы и графика выше - предполагаемые рабочие часы: 16 - 23,
+нерабочие: 1-15
 
 ``` r
 traffic_noWork <- internal_traffic %>% mutate(
@@ -193,6 +214,12 @@ traffic_noWork <- internal_traffic %>% mutate(
   ) %>%
   arrange(desc(total_bytes))
 ```
+
+``` r
+ggplot(head(traffic_noWork, 10), aes(total_bytes, src)) + geom_col()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-16-1.png)
 
 Вывод ip-адреса системы
 
@@ -234,6 +261,12 @@ ports <- internal_traffic %>%
 ```
 
 ``` r
+ggplot(data = ports, aes(x = port, y = Raz)) + geom_col()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-19-1.png)
+
+``` r
 print(head(ports, 1))
 ```
 
@@ -247,25 +280,25 @@ print(head(ports, 1))
 ``` r
 result <- internal_traffic %>%
   filter(port == 37) %>%
-  group_by(src) %>%
-  arrange(desc(bytes)) %>% select(port, src, bytes) %>% head(5)
+  group_by(src) %>% summarise(traffic = sum(bytes), count = n(), avg = traffic/count, med = median(bytes)) %>% arrange(desc(avg))
 ```
 
 ``` r
-print(result)
+ggplot(head(result, 10), aes(avg, src)) + geom_col()
 ```
 
-    # A tibble: 5 × 3
-    # Groups:   src [5]
-       port src           bytes
-      <int> <chr>         <int>
-    1    37 13.38.72.85  209402
-    2    37 12.49.76.124 187364
-    3    37 14.33.32.62  176425
-    4    37 13.45.47.36  176180
-    5    37 14.59.76.76  175368
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-22-1.png)
 
-Ответ: 13.38.72.85
+``` r
+print(head(result, 1))
+```
+
+    # A tibble: 1 × 5
+      src          traffic count    avg   med
+      <chr>          <int> <int>  <dbl> <dbl>
+    1 14.31.107.42 1288614    30 42954. 43732
+
+Ответ: 14.31.107.42
 
 ## Оценка результатов
 
