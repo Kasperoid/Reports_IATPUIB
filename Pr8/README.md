@@ -50,26 +50,38 @@
 library(duckdb)
 ```
 
-    Loading required package: DBI
+    Warning: пакет 'duckdb' был собран под R версии 4.4.2
+
+    Загрузка требуемого пакета: DBI
 
 ``` r
 library(dplyr)
 ```
 
 
-    Attaching package: 'dplyr'
+    Присоединяю пакет: 'dplyr'
 
-    The following objects are masked from 'package:stats':
+    Следующие объекты скрыты от 'package:stats':
 
         filter, lag
 
-    The following objects are masked from 'package:base':
+    Следующие объекты скрыты от 'package:base':
 
         intersect, setdiff, setequal, union
 
 ``` r
 library(DBI)
 ```
+
+``` r
+#install.packages("ggplot2")
+```
+
+``` r
+library(ggplot2)
+```
+
+    Warning: пакет 'ggplot2' был собран под R версии 4.4.2
 
 Импорт файла pqt
 
@@ -109,7 +121,7 @@ dbGetQuery(con, query)
     Warning in dbFetch(rs, n = n, ...): Should not call dbFetch() on results that
     do not come from SELECT, got CREATE
 
-    data frame with 0 columns and 0 rows
+    таблица данных с 0 колонок и 0 строками
 
 #### Задание 1. Найдите утечку данных из Вашей сети
 
@@ -170,6 +182,14 @@ ORDER BY time DESC;"
 ```
 
 ``` r
+ggplot(data = dbGetQuery(con, query), aes(x = time, y = trafictime)) + 
+  geom_line() +
+  geom_point()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-14-1.png)
+
+``` r
 dbGetQuery(con, query)
 ```
 
@@ -206,7 +226,7 @@ dbGetQuery(con, query)
 Поэтому составляется sql-запрос
 
 ``` r
-query <- "SELECT src
+query <- "SELECT src, total_bytes
 FROM (
     SELECT src, SUM(bytes) AS total_bytes
     FROM inner_traffic
@@ -215,17 +235,32 @@ FROM (
     GROUP BY src
 ) AS aggregated_results
 ORDER BY total_bytes DESC
-LIMIT 1;
+LIMIT 10;
 ;
 "
 ```
 
 ``` r
+ggplot(dbGetQuery(con, query), aes(total_bytes, src)) + geom_col()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-17-1.png)
+
+``` r
 dbGetQuery(con, query)
 ```
 
-              src
-    1 12.55.77.96
+               src total_bytes
+    1  12.55.77.96   298669501
+    2  13.42.70.40   205829110
+    3  12.59.25.34   136628237
+    4  12.45.94.34   131224383
+    5  14.57.50.29   128462176
+    6  13.39.46.94   126792073
+    7  14.51.30.86   126647347
+    8  12.45.45.30   124842646
+    9  13.48.72.30   124581084
+    10 14.57.70.39   124368210
 
 Ответ: 12.55.77.96
 
@@ -242,17 +277,32 @@ dbGetQuery(con, query)
 средним по порту - наибольшая
 
 ``` r
+query <- "SELECT *
+  FROM read_parquet('tm_data.pqt')
+  WHERE (src LIKE '12.%' OR src LIKE '13.%' OR src LIKE '14.%') 
+  AND (dst NOT LIKE '12.%' AND dst NOT LIKE '13.%' AND dst NOT LIKE '14.%') 
+  AND (src NOT LIKE '13.37.84.125' AND src NOT LIKE '12.55.77.96');"
+
+all <- dbGetQuery(con, query)
+```
+
+``` r
 query <- "SELECT port, AVG(bytes) AS mean_bytes, MAX(bytes) AS max_bytes, SUM(bytes) AS sum_bytes, MAX(bytes) - AVG(bytes) AS Raz
 FROM inner_traffic
 WHERE inner_traffic.src != '13.37.84.125' AND inner_traffic.src != '12.55.77.96'
 GROUP BY port
 HAVING MAX(bytes) - AVG(bytes) != 0
-ORDER BY Raz DESC
-LIMIT 1;"
+ORDER BY Raz DESC;"
 ```
 
 ``` r
-dbGetQuery(con, query)
+ggplot(data = dbGetQuery(con, query), aes(x = port, y = Raz)) + geom_col()
+```
+
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-21-1.png)
+
+``` r
+head(dbGetQuery(con, query),1)
 ```
 
       port mean_bytes max_bytes   sum_bytes      Raz
@@ -261,25 +311,35 @@ dbGetQuery(con, query)
 37 порт - подозрительный, поэтому выборка будет прозводится по 37 порту
 
 ``` r
-query <- "SELECT src
-FROM (
-    SELECT src, AVG(bytes) AS mean_bytes
-    FROM inner_traffic
-    WHERE port = 37
-    GROUP BY src
-)
-ORDER BY mean_bytes DESC
-LIMIT 1;"
+result <- all %>% filter(port == 37) %>% group_by(src) %>%
+summarise(traffic = sum(bytes), count = n(), avg = traffic/count) %>% arrange(desc(avg))
 ```
 
 ``` r
-dbGetQuery(con, query)
+ggplot(head(result, 10), aes(avg, src)) + geom_col()
 ```
 
-              src
-    1 13.46.35.35
+![](README.markdown_strict_files/figure-markdown_strict/unnamed-chunk-24-1.png)
 
-Ответ: 13.46.35.35
+``` r
+head(result, 10)
+```
+
+    # A tibble: 10 × 4
+       src            traffic count    avg
+       <chr>            <int> <int>  <dbl>
+     1 14.31.107.42   1288614    30 42954.
+     2 14.42.60.94     511103    12 42592.
+     3 13.38.62.122   3421563    85 40254.
+     4 12.34.57.42   10933906   275 39760.
+     5 13.40.119.70  10653816   274 38883.
+     6 14.51.84.50   10568647   273 38713.
+     7 14.55.27.67   13337122   347 38436.
+     8 13.41.60.66   17175058   447 38423.
+     9 14.40.64.30   12097290   316 38283.
+    10 13.50.114.110 12383022   325 38102.
+
+Ответ: 14.31.107.42
 
 ### Шаг 3. Создание отчета
 
