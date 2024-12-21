@@ -85,6 +85,8 @@ editor: visual
 print('Отчёт подготовлен')
 ```
 
+Ссылка на дашборд: <https://datalens.yandex.cloud/xdf07miupclck-dashbort-ustinov>
+
 ## Оценка результатов
 
 Проведен анализ сетевой активности в сегментированной корпоративной сети
